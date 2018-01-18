@@ -24,6 +24,12 @@ open class ReferenceLines {
     }
     /// Where the labels should be displayed on the reference lines.
     open var referenceLinePosition = ScrollableGraphViewReferenceLinePosition.left
+    open var shouldDrawReferenceLineGuardLineForLeftLabels: Bool = false
+    open var shouldDrawReferenceLineGuardLineForRightLabels: Bool = false
+    open var referenceLineStyle = ScrollableGraphViewReferenceLineStyle.solid
+    open var shouldDrawOutterReferenceLineAsSolidWhenReferenceLineStyleIsDashed = false
+    open var identifier: String = ""
+    open var referenceLabelBackgoundColor: UIColor = UIColor.white
     
     @IBInspectable open var positionType = ReferenceLinePositioningType.relative
     @IBInspectable open var relativePositions: [Double] = [0.25, 0.5, 0.75]
@@ -37,7 +43,8 @@ open class ReferenceLines {
     
     // Reference Line Labels
     // #####################
-    
+    /// The transfrom to be used for the reference line labels.
+    open var referenceLineLabelTransForm: CATransform3D?
     /// The font to be used for the reference line labels.
     open var referenceLineLabelFont = UIFont.systemFont(ofSize: 8)
     /// The colour of the reference line labels.
@@ -87,4 +94,9 @@ open class ReferenceLines {
 
 @objc public enum ScrollableGraphViewReferenceLineType : Int {
     case cover
+}
+
+@objc public enum ScrollableGraphViewReferenceLineStyle : Int {
+    case dashed
+    case solid
 }

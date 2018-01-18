@@ -224,6 +224,38 @@ open class Plot {
     internal func graphPoint(forIndex index: Int) -> GraphPoint {
         return graphPoints[index]
     }
+    
+    internal func graphValue(forIndex index: Int) -> String? {
+        return nil
+    }
+    internal func graphValueFont(forIndex index: Int) -> UIFont? {
+        return nil
+    }
+    internal func graphValueTextcolorAtOutSide(forIndex index: Int) -> UIColor? {
+        return nil
+    }
+    internal func graphValueTextcolorAtInSide(forIndex index: Int) -> UIColor? {
+        return nil
+    }
+    internal func graphValueShouldPlaceAtOutSide(forIndex index: Int) -> Bool? {
+        return nil
+    }
+    internal func graphValueShouldPlaceAtInSide(forIndex index: Int) -> Bool? {
+        return nil
+    }
+    internal func customBarWidth(forIndex index: Int) -> CGFloat? {
+        return nil
+    }
+    internal func customBarFillColor(forIndex index: Int) -> UIColor? {
+        return nil
+    }
+    internal func graphValueLabelTransform(forIndex index: Int) -> CATransform3D? {
+        return nil
+    }
+    internal func graphValueLocationOffset(forIndex index: Int) -> CGPoint? {
+        return nil
+    }
+    
 }
 
 @objc public enum ScrollableGraphViewAnimationType : Int {

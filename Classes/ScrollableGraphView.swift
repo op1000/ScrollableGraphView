@@ -12,7 +12,7 @@ import UIKit
     // ###########
     
     /// The background colour for the entire graph view, not just the plotted graph.
-    @IBInspectable open var backgroundFillColor: UIColor = UIColor.white
+    @IBInspectable open var backgroundFillColor: UIColor = UIColor.clear
     
     // Spacing
     // #######
@@ -27,6 +27,7 @@ import UIKit
     @IBInspectable open var rightmostPointPadding: CGFloat = 50
     /// How much space should be between each data point.
     @IBInspectable open var dataPointSpacing: CGFloat = 40
+    open var labelXOffset: CGFloat = 0.0
     
     @IBInspectable var direction_: Int {
         get { return direction.rawValue }
@@ -155,7 +156,7 @@ import UIKit
     
     private func setup() {
         
-        clipsToBounds = true
+        clipsToBounds = false
         isCurrentlySettingUp = true
         
         // 0.
@@ -171,7 +172,7 @@ import UIKit
         
         // Add the drawing view in which we draw all the plots.
         drawingView = UIView(frame: viewport)
-        drawingView.backgroundColor = backgroundFillColor
+        drawingView.backgroundColor = self.backgroundFillColor
         self.addSubview(drawingView)
         
         // Add the x-axis labels view.
@@ -294,6 +295,8 @@ import UIKit
                 referenceLineColor: referenceLines.referenceLineColor,
                 referenceLineThickness: referenceLines.referenceLineThickness,
                 referenceLineSettings: referenceLines)
+            
+            referenceLineView?.dataSource = self.dataSource
             
             referenceLineView?.set(range: self.range)
             
@@ -819,11 +822,18 @@ import UIKit
             let rangeMin = (shouldAdaptRange) ? self.range.min : self.rangeMin
             let position = calculatePosition(atIndex: point, value: rangeMin)
             
-            label.frame = CGRect(origin: CGPoint(x: position.x - label.frame.width / 2, y: position.y + ref.dataPointLabelTopMargin), size: label.frame.size)
+            label.frame = CGRect(origin: CGPoint(x: position.x - label.frame.width / 2 + self.labelXOffset, y: position.y + ref.dataPointLabelTopMargin), size: label.frame.size)
             
             let _ = labelsView.subviews.filter { $0.frame == label.frame }.map { $0.removeFromSuperview() }
             
             labelsView.addSubview(label)
+            
+            let transfrom :CATransform3D? = dataSource?.labelTransform(atIndex: point) ?? nil
+            if transfrom != nil {
+                let affine: CGAffineTransform = CGAffineTransform(a: transfrom!.m11, b: transfrom!.m12, c: transfrom!.m21, d: transfrom!.m22, tx: transfrom!.m41, ty: transfrom!.m42)
+                label.transform = affine
+                label.frame = CGRect(origin: CGPoint(x: position.x - label.frame.width / 2 + self.labelXOffset, y: position.y + ref.dataPointLabelTopMargin - 5), size: label.frame.size)
+            }
         }
     }
     
@@ -993,8 +1003,52 @@ public extension ScrollableGraphView : ScrollableGraphViewDataSource {
         return linePlotData[pointIndex]
     }
     
+    func auxiliaryValue(forPlot plot: Plot, atIndex pointIndex: Int) -> String? {
+        return nil
+    }
+    
+    func auxiliaryValueFont(forPlot plot: Plot, atIndex pointIndex: Int) -> UIFont? {
+        return nil
+    }
+    
+    func auxiliaryValueTextColorAtOutSide(forPlot plot: Plot, atIndex pointIndex: Int) -> UIColor? {
+        return nil
+    }
+    
+    func auxiliaryValueTextColorAtInSide(forPlot plot: Plot, atIndex pointIndex: Int) -> UIColor? {
+        return nil
+    }
+    
+    func auxiliaryValueTextShouldPlaceAtOutSide(forPlot plot: Plot, atIndex pointIndex: Int) -> Bool? {
+        return nil
+    }
+    
+    func auxiliaryValueShouldPlaceAtInSide(forPlot plot: Plot, atIndex pointIndex: Int) -> Bool? {
+        return nil
+    }
+    
+    func auxiliarycustomBarWidthValue(forPlot plot: Plot, atIndex pointIndex: Int) -> CGFloat? {
+        return nil
+    }
+    
+    func auxiliarycustomBarBarFillColorValue(forPlot plot: Plot, atIndex pointIndex: Int) -> UIColor? {
+        return nil
+    }
+    
+    func auxiliaryValueLocationOffset(forPlot plot: Plot, atIndex pointIndex: Int) -> CGPoint? {
+        return nil
+    }
+    
     public func label(atIndex pointIndex: Int) -> String {
         return "\(pointIndex)"
+    }
+    
+    public func labelTransform(atIndex pointIndex: Int) -> CATransform3D? {
+        return nil
+    }
+    
+    func labelCustomText(forGraph graph: ReferenceLines, atIndex pointIndex: Int) -> String? {
+        return nil
     }
     
     public func numberOfPoints() -> Int {
