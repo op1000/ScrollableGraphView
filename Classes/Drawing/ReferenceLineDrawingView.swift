@@ -187,6 +187,9 @@ internal class ReferenceLineDrawingView : UIView {
         else {
             boundingSize = self.boundingSize(forText: tag)
         }
+        if customLabelText == "" {
+            boundingSize = CGSize(width: 0.0, height: 0.0)
+        }
         do {
             let transfrom :CATransform3D? = self.settings.referenceLineLabelTransForm
             if transfrom != nil {
@@ -274,7 +277,8 @@ internal class ReferenceLineDrawingView : UIView {
                                      width: leftLabel.frame.size.width + 6.0,
                                      height: leftLabel.frame.size.height)
             leftLabel.textAlignment = .center
-            leftLabel.layer.backgroundColor = settings.referenceLabelBackgoundColor.cgColor
+            //leftLabel.layer.backgroundColor = settings.referenceLabelBackgoundColor.cgColor
+            leftLabel.layer.backgroundColor = UIColor.clear.cgColor
         }
         do {
             rightLabel.frame = CGRect(x: rightLabel.frame.origin.x - 3.0,
@@ -594,6 +598,9 @@ internal class ReferenceLineDrawingView : UIView {
         }
         else {
             label.text = text
+        }
+        if customLabelText == "" {
+            label.alpha = 0.0
         }
         label.textColor = self.settings.referenceLineLabelColor
         label.font = self.settings.referenceLineLabelFont
