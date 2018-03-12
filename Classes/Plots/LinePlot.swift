@@ -120,6 +120,7 @@ open class LinePlot : Plot {
 @objc public enum ScrollableGraphViewLineStyle : Int {
     case straight
     case smooth
+    case dashed
 }
 
 @objc public enum ScrollableGraphViewFillType : Int {

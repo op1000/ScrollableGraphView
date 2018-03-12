@@ -23,6 +23,10 @@ internal class LineDrawingLayer : ScrollableGraphViewDrawingLayer {
         self.lineJoin = lineJoin
         self.lineCap = lineCap
         
+        if lineStyle == .dashed {
+            self.lineDashPattern = [3, 3]
+        }
+        
         // Setup
         self.fillColor = UIColor.clear.cgColor // This is handled by the fill drawing layer.
     }
@@ -44,7 +48,10 @@ internal class LineDrawingLayer : ScrollableGraphViewDrawingLayer {
         
         currentLinePath.removeAllPoints()
         
-        let pathSegmentAdder = lineStyle == .straight ? addStraightLineSegment : addCurvedLineSegment
+        var pathSegmentAdder = lineStyle == .straight ? addStraightLineSegment : addCurvedLineSegment
+        if lineStyle == .dashed {
+            pathSegmentAdder = addStraightLineSegment
+        }
         
         let activePointsInterval = delegate.intervalForActivePoints()
         
