@@ -5,7 +5,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, ScrollableGraphViewDataSource {
+class ViewController: UIViewController {
     
     @IBOutlet var graphView: ScrollableGraphView!
     
@@ -111,5 +111,52 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+}
+
+extension ViewController: ScrollableGraphViewDataSource {
+    
+    func auxiliaryValue(forPlot plot: Plot, atIndex pointIndex: Int) -> String? {
+        return nil
+    }
+    
+    func auxiliaryValueFont(forPlot plot: Plot, atIndex pointIndex: Int) -> UIFont? {
+        return nil
+    }
+    
+    func auxiliaryValueTextColorAtOutSide(forPlot plot: Plot, atIndex pointIndex: Int) -> UIColor? {
+        return nil
+    }
+    
+    func auxiliaryValueTextColorAtInSide(forPlot plot: Plot, atIndex pointIndex: Int) -> UIColor? {
+        return nil
+    }
+    
+    func auxiliaryValueTextShouldPlaceAtOutSide(forPlot plot: Plot, atIndex pointIndex: Int) -> Bool? {
+        return false
+    }
+    
+    func auxiliaryValueShouldPlaceAtInSide(forPlot plot: Plot, atIndex pointIndex: Int) -> Bool? {
+        return false
+    }
+    
+    func auxiliaryValueLocationOffset(forPlot plot: Plot, atIndex pointIndex: Int) -> CGPoint? {
+        return nil
+    }
+    
+    func auxiliarycustomBarWidthValue(forPlot plot: Plot, atIndex pointIndex: Int) -> CGFloat? {
+        return nil
+    }
+    
+    func auxiliarycustomBarBarFillColorValue(forPlot plot: Plot, atIndex pointIndex: Int) -> UIColor? {
+        return nil
+    }
+    
+    func labelTransform(atIndex pointIndex: Int) -> CATransform3D? {
+        return nil
+    }
+    
+    func labelCustomText(forGraph graph: ReferenceLines, atIndex pointIndex: Int) -> String? {
+        return nil
     }
 }
